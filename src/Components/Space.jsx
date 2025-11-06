@@ -44,7 +44,7 @@ export default function Space(props) {
 
   useFrame(({ clock }) => {
     ref.current.rotation.z = clock.getElapsedTime() / 5
-    ref.current.scale.setScalar(Math.sin(clock.getElapsedTime() / 2) + 1.5)
+    ref.current.scale.setScalar(Math.sin(clock.getElapsedTime() / 2) + 1.8)
   })
 
   return (
