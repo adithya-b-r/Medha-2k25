@@ -24,8 +24,8 @@ const NavItems = ({ isMobile = false }) => {
 
       {/* Register Button */}
       {!isMobile && (
-        <div className="relative group">
-          <button className="absolute group-hover:text-[#BB7B43] bg-linear-to-br from-[#5C6691] via-50% to-[#E8EDFF] text-gray-900 font-semibold px-6 py-2 rounded-lg transition-all duration-300 transform group-hover:scale-105 shadow-lg">
+        <div className="relative group ">
+          <button className="absolute cursor-pointer group-hover:text-[#BB7B43] bg-linear-to-br from-[#5C6691] via-50% to-[#E8EDFF] text-gray-900 font-semibold px-6 py-2 rounded-lg transition-all duration-300 transform group-hover:scale-105 shadow-lg">
             Register
           </button>
           <button className="group-hover:ml-2 group-hover:mt-2 bg-transparent group-hover:bg-[#BB7B43] text-gray-900 font-semibold px-6 py-2 rounded-lg transition-all duration-300 transform">

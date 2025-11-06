@@ -1,4 +1,4 @@
-import { Navbar } from "./components/Navbar"
+import { Navbar } from "./Components/Navbar"
 import { Hero } from "./sections/Hero"
 import { About } from "./sections/About"
 import { Events } from "./sections/Events"
