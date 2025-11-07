@@ -2,6 +2,9 @@ import { Environment, OrbitControls } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber";
 import Space from "../Components/Space";
 import { Suspense } from "react";
+import Astronaut from "../Components/Astronaut";
+import Astronaut2 from "../Components/Astronaut2";
+import Ufo from "../Components/Ufo";
 
 export const Hero = () => {
   return (
@@ -20,6 +23,9 @@ export const Hero = () => {
         />
         <Suspense fallback={null}>
           <Space />
+          {/* <Astronaut position={[0, -1, 4]}/> */}
+          <Astronaut2 position={[-1,-0.5,4]} rotation={[-0.3,0.8,0]}/>
+          <Ufo />
         </Suspense>
         <Environment preset="sunset" />
       </Canvas>

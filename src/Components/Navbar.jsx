@@ -52,7 +52,7 @@ export const Navbar = () => {
   }
 
   return (
-    <header className="text-white fixed top-0 left-0 right-0 z-20 md:bg-black/10 bg-black/50 backdrop-blur-[0.5px]">
+    <header className="text-white fixed top-0 left-0 right-0 z-20 md:bg-black/105 bg-black/50 backdrop-blur-[0.5px]">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center p-5 mx-auto sm:px-10">
           <a href="/" className="text-neutral-400 font-bold text-xl hover:text-white transition-colors "><img className="h-12" src="/medha3.png" alt="" /></a>

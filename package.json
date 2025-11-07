@@ -14,9 +14,11 @@
     "@react-three/fiber": "^9.4.0",
     "@react-three/postprocessing": "^3.0.4",
     "gltfjsx": "^6.5.3",
+    "leva": "^0.10.1",
     "lucide-react": "^0.552.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-responsive": "^10.0.1",
     "three": "^0.181.0"
   },
   "devDependencies": {

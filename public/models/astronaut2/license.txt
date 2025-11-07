@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cute Astronaut
+* source:	https://sketchfab.com/3d-models/cute-astronaut-816bd786fe8b4559a009de6a95582003
+* author:	haefu (https://sketchfab.com/haefu)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cute Astronaut" (https://sketchfab.com/3d-models/cute-astronaut-816bd786fe8b4559a009de6a95582003) by haefu (https://sketchfab.com/haefu) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

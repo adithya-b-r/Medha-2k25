@@ -1,0 +1,11 @@
+Model Information:
+* title:	Little Astronaut
+* source:	https://sketchfab.com/3d-models/little-astronaut-12184db58b1f44c987537b5607c32098
+* author:	Jelle Vermandere (https://sketchfab.com/jellevermandere)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Little Astronaut" (https://sketchfab.com/3d-models/little-astronaut-12184db58b1f44c987537b5607c32098) by Jelle Vermandere (https://sketchfab.com/jellevermandere) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
