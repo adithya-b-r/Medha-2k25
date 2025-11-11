@@ -1,4 +1,3 @@
-// App.jsx
 import { Leva } from "leva";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./sections/hero/Hero"
