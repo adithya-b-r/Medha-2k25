@@ -1,6 +1,6 @@
 // App.jsx
 import { Leva } from "leva";
-import { Navbar } from "./components/Navbar"
+import { Navbar } from "./components/Navbar";
 import { Hero } from "./sections/hero/Hero"
 import { About } from "./sections/About"
 import { Events } from "./sections/Events"
