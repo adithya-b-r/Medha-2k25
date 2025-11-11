@@ -2,7 +2,7 @@ import { Environment, OrbitControls } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { useMediaQuery } from 'react-responsive'
-import { Ufo } from "../../Components/3D_Models/ufo";
+import { Ufo } from "../../components/3D_Models/ufo";
 
 import { LeftTerminal } from "./LeftTerminal";
 import { RightTerminal } from "./RightTerminal";

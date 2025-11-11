@@ -1,4 +1,4 @@
-import RetroTerminalFrame from "../../Components/RetroTerminalFrame"
+import RetroTerminalFrame from "../../components/RetroTerminalFrame"
 
 export const RightTerminal = () =>{
   return(
