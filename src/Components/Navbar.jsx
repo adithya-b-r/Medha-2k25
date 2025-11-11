@@ -48,7 +48,7 @@ const NavItems = ({ isMobile = false }) => {
   )
 }
 
-export const Navbar = () => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -100,3 +100,5 @@ export const Navbar = () => {
     </header>
   )
 }
+
+export default Navbar;
