@@ -14,14 +14,6 @@ export const Hero = () => {
 
   return (
     <section id="hero" className="w-full h-screen top-0 left-0 -z-10 relative">
-      <div className="absolute inset-0 w-full h-full">
-        <iframe
-          src="https://galaxy-bg.vercel.app/"
-          className="w-full h-full border-0"
-          title="Galaxy Background"
-        />
-      </div>
-
       {!isTabletOrMobile && (
         <>
           <LeftTerminal />
