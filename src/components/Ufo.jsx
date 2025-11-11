@@ -1,131 +1,188 @@
-import React, { useEffect, useMemo, useRef } from "react"
-import { useGLTF, useAnimations, useTexture } from "@react-three/drei"
-import { useControls } from "leva"
-import * as THREE from "three"
+// Ufo.jsx
+import React, { useRef, useEffect, forwardRef, useState } from 'react'
+import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
+import { gsap } from 'gsap'
+import { useControls } from 'leva'
+import { useMediaQuery } from "react-responsive"
 
-const UFO_ANIMS = ["Hovering", "Zooming", "Abduction Force Field"]
-
-export default function Ufo(props) {
+export const Ufo = forwardRef((props, ref) => {
   const group = useRef()
-  const { nodes, materials, animations } = useGLTF("/models/ufo/scene.gltf")
-  const { actions, mixer, names } = useAnimations(animations, group)
+  const { nodes, materials, animations } = useGLTF('/models/ufosmall/scene.gltf')
+  const { actions } = useAnimations(animations, group)
+  
+  const [initialPosition] = useState([0, 0.2, 2])
+  const [isMoving, setIsMoving] = useState(false)
+  const returnTimeoutRef = useRef(null)
+  
+  const isMobile = useMediaQuery({ maxWidth: 768 })
 
-  const animNames = useMemo(() => (names && names.length ? names : UFO_ANIMS), [names])
-  const animOptions = useMemo(() => Object.fromEntries(animNames.map((n) => [n, n])), [animNames])
-
-  const { animName, fade, speed, loop, applyTextures, position, rotation, scale } = useControls(
-    "UFO",
-    {
-      animName: { label: "Animation", options: animOptions, value: animNames[1] },
-      fade: { label: "Fade", value: 0.3, min: 0, max: 2, step: 0.1 },
-      speed: { label: "Speed", value: 1, min: 0, max: 3, step: 0.1 },
-      loop: { label: "Loop", value: true },
-      applyTextures: { label: "Apply Textures", value: true },
-      position: { label: "Position", value: { x: 0, y: -7, z: 0 }, step: 0.1 },
-      rotation: { label: "Rotation (rad)", value: { x: 0, y: 0, z: 0 }, step: 0.1 },
-      scale: { label: "Scale", value: { x: 2, y: 2, z: 1 }, min: 0.01, max: 10, step: 0.1 },
+  const { position, rotation, scale } = useControls('UFO Controls', {
+    position: {
+      value: initialPosition,
+      step: 0.1,
+      min: -10,
+      max: 10,
     },
-    { collapsed: true }
-  )
-
-
-  const tex = useTexture({
-    map: "/models/ufo/textures/material_0_diffuse.png",
-    specGloss: "/models/ufo/textures/material_0_specularGlossiness.png",
-    emissiveMap: "/models/ufo/textures/material_0_emissive.png",
-    normalMap: "/models/ufo/textures/material_0_normal.png",
+    rotation: {
+      value: [0.1, 0, 0],
+      step: 0.01,
+      min: -Math.PI * 2,
+      max: Math.PI * 2,
+    },
+    scale: {
+      value: 0.45,
+      step: 0.01,
+      min: 0.1,
+      max: 5,
+    },
   })
 
-  useMemo(() => {
-    Object.values(tex).forEach((t) => {
-      if (t && "flipY" in t) t.flipY = false
-    })
-    if (tex.map && "colorSpace" in tex.map) tex.map.colorSpace = THREE.SRGBColorSpace
-  }, [tex])
-
-  const material = useMemo(() => {
-    const base = materials.material_0
-    if (!applyTextures) {
-      base.transparent = false
-      base.opacity = 1
-      base.alphaTest = 0
-      base.depthWrite = true
-      base.depthTest = true
-      base.side = THREE.FrontSide
-      base.blending = THREE.NormalBlending
-      base.needsUpdate = true
-      return base
-    }
-    const mat = base.clone()
-    mat.map = tex.map
-    mat.normalMap = tex.normalMap
-    mat.emissiveMap = tex.emissiveMap
-    mat.emissive = new THREE.Color(0xffffff)
-    mat.emissiveIntensity = 1
-    mat.transparent = false
-    mat.opacity = 1
-    mat.alphaTest = 0
-    mat.depthWrite = true
-    mat.depthTest = true
-    mat.side = THREE.FrontSide
-    mat.blending = THREE.NormalBlending
-    mat.needsUpdate = true
-    return mat
-  }, [applyTextures, materials.material_0, tex.map, tex.normalMap, tex.emissiveMap])
-
   useEffect(() => {
-    const name = animName
-    if (!name || !actions[name]) return
-    Object.entries(actions).forEach(([n, action]) => {
-      if (!action) return
-      action.setEffectiveTimeScale(1).setEffectiveWeight(1)
-      if (n === name) {
-        action.reset()
-        action.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, Infinity)
-        action.clampWhenFinished = !loop
-        action.enabled = true
-        action.fadeIn(fade).play()
-        action.timeScale = speed
-      } else {
-        action.fadeOut(fade)
+    const animationName = 'ArmatureAction.001'
+    const action = actions[animationName]
+
+    if (action) {
+      action.setLoop(THREE.LoopRepeat, Infinity).play()
+    } else {
+      console.warn(`Animation '${animationName}' not found in model.`)
+    }
+  }, [actions])
+
+  const moveUfo = (targetX) => {
+    if (!group.current) return
+    
+    // Clear any existing timeout
+    if (returnTimeoutRef.current) {
+      clearTimeout(returnTimeoutRef.current)
+    }
+    
+    setIsMoving(true)
+    
+    // Move to new position
+    gsap.to(group.current.position, {
+      x: targetX,
+      duration: 1,
+      ease: "power.inOut",
+      onComplete: () => {
+        // Set timeout to return to initial position after 2 seconds
+        returnTimeoutRef.current = setTimeout(() => {
+          returnToInitialPosition()
+        }, 2000)
       }
     })
-    return () => {
-      Object.values(actions).forEach((a) => a && a.stop())
-    }
-  }, [actions, animName, fade, loop, speed])
+  }
 
+  const returnToInitialPosition = () => {
+    if (!group.current) return
+    
+    gsap.to(group.current.position, {
+      x: initialPosition[0],
+      y: initialPosition[1],
+      z: initialPosition[2],
+      duration: 1,
+      ease: "power.inOut",
+      onComplete: () => {
+        setIsMoving(false)
+      }
+    })
+  }
+
+  // Mouse move handler for desktop
   useEffect(() => {
-    mixer.timeScale = speed
-  }, [mixer, speed])
+    if (isMobile) return // Skip mouse events on mobile
+
+    const handleMouseMove = (event) => {
+      const x = (event.clientX / window.innerWidth) * 4 - 2
+      moveUfo(x)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [isMobile])
+
+  // Click/touch handler for mobile
+  useEffect(() => {
+    if (!isMobile) return // Skip touch events on desktop
+
+    const handlePointerDown = (event) => {
+      const clientX = event.clientX || (event.touches && event.touches[0].clientX)
+      if (clientX) {
+        const x = (clientX / window.innerWidth) * 4 - 2
+        moveUfo(x)
+      }
+    }
+
+    // Add both mouse and touch events for mobile
+    window.addEventListener('mousedown', handlePointerDown)
+    window.addEventListener('touchstart', handlePointerDown)
+    
+    return () => {
+      window.removeEventListener('mousedown', handlePointerDown)
+      window.removeEventListener('touchstart', handlePointerDown)
+    }
+  }, [isMobile])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (returnTimeoutRef.current) {
+        clearTimeout(returnTimeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <group
       ref={group}
+      position={position}
+      rotation={rotation}
+      scale={scale}
       {...props}
-      dispose={null}
-      position={[position.x, position.y, position.z]}
-      rotation={[rotation.x, rotation.y, rotation.z]}
-      scale={[scale.x, scale.y, scale.z]}
-    >
+      dispose={null}>
       <group name="Sketchfab_Scene">
-        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={2.019}>
+        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
           <group name="root">
             <group name="GLTF_SceneRootNode" rotation={[Math.PI / 2, 0, 0]}>
-              <group name="RootNode0_0" scale={0.01}>
-                <group name="skeletal1_1">
-                  <group name="GLTF_created_0">
-                    <primitive object={nodes.GLTF_created_0_rootJoint} />
-                    <skinnedMesh
-                      name="Object_17"
-                      geometry={nodes.Object_17.geometry}
-                      material={material}
-                      skeleton={nodes.Object_17.skeleton}
-                    />
-                    <group name="ufo11_11_correction">
-                      <group name="ufo11_11" />
-                    </group>
-                  </group>
+              <group name="Armature_6">
+                <group name="GLTF_created_0">
+                  <primitive object={nodes.GLTF_created_0_rootJoint} />
+                  <skinnedMesh
+                    name="Object_7"
+                    geometry={nodes.Object_7.geometry}
+                    material={materials.LightMEtal}
+                    skeleton={nodes.Object_7.skeleton}
+                  />
+                  <skinnedMesh
+                    name="Object_8"
+                    geometry={nodes.Object_8.geometry}
+                    material={materials.DarkMetal}
+                    skeleton={nodes.Object_8.skeleton}
+                  />
+                  <skinnedMesh
+                    name="Object_9"
+                    geometry={nodes.Object_9.geometry}
+                    material={materials.Light}
+                    skeleton={nodes.Object_9.skeleton}
+                  />
+                  {/* Rings (Object_10) commented out */}
+                  <skinnedMesh
+                    name="Object_10"
+                    geometry={nodes.Object_10.geometry}
+                    material={materials.White}
+                    skeleton={nodes.Object_10.skeleton}
+                  />
+                  <skinnedMesh
+                    name="Object_11"
+                    geometry={nodes.Object_11.geometry}
+                    material={materials.Glass}
+                    skeleton={nodes.Object_11.skeleton}
+                  />
+                  <group
+                    name="Body_5"
+                    position={[0, -0.2017543, 0]}
+                    scale={[0.41318879, 0.5509184, 0.41318879]}
+                  />
                 </group>
               </group>
             </group>
@@ -134,6 +191,6 @@ export default function Ufo(props) {
       </group>
     </group>
   )
-}
+})
 
-useGLTF.preload("/models/ufo/scene.gltf")
+useGLTF.preload('/models/ufosmall/scene.gltf')
