@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { navLinks } from "../constants"
+import { navLinks } from "./constants"
 
 const NavItems = ({ isMobile = false }) => {
   return (
