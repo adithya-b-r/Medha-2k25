@@ -1,5 +1,8 @@
 export const Contact = () => {
-  return(
-    <></>
+  return (
+    <>
+      <section id="contact" className="w-full h-screen">
+      </section>
+    </>
   )
 }

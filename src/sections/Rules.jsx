@@ -1,5 +1,8 @@
 export const Rules = () => {
-  return(
-    <></>
+  return (
+    <>
+      <section id="rules" className="w-full h-screen">
+      </section>
+    </>
   )
 }

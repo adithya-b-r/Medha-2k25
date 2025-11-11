@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/general-sans');
 @import "tailwindcss";
 
+@theme{
+  --font-goldman: "Goldman", sans-serif;
+}
+
 * {
   scroll-behavior: smooth;
+  cursor: url('cursor.png') 16 16, auto !important;
 }
 
 body {

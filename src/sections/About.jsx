@@ -1,5 +1,8 @@
 export const About = () => {
-  return(
-    <></>
+  return (
+    <>
+      <section id="about" className="w-full h-screen">
+      </section>
+    </>
   )
 }

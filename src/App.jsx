@@ -1,21 +1,26 @@
+// App.jsx
 import { Leva } from "leva";
-
-import { Navbar } from "./Components/Navbar"
-import { Hero } from "./sections/Hero"
+import { Navbar } from "./components/Navbar"
+import { Hero } from "./sections/hero/Hero"
 import { About } from "./sections/About"
 import { Events } from "./sections/Events"
 import { Glimpse } from "./sections/Glimpse"
 import { Rules } from "./sections/Rules"
 import { Contact } from "./sections/Contact"
+import ZoomProgress from "./components/ZoomProgress"
+import { useMediaQuery } from "react-responsive";
 
 function App() {
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+
   return (
     <>
-      <Leva collapsed={false} />
+      <Leva hidden collapsed={false} />
       <div className="relative">
-        <Hero />
+        <ZoomProgress />
+        {isTabletOrMobile && <Navbar />}
         <main className="max-w-7xl mx-auto relative z-10">
-          <Navbar />
+          <Hero />
           <About />
           <Events />
           <Glimpse />
