@@ -113,4 +113,4 @@ const ZoomProgress = () => {
   )
 }
 
-export default ZoomProgress
+export default ZoomProgress;
